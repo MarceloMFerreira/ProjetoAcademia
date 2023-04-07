@@ -1,0 +1,9 @@
+.bg-teste {
+    background: linear-gradient(to bottom, #1e90ff, #000000);
+}
+
+
+.table-responsive {
+    overflow-x: unset;
+  }
+  

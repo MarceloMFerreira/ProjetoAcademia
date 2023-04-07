@@ -2,13 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Colaborador extends Model
 {
     use HasFactory;
 
@@ -32,4 +29,13 @@ class User extends Authenticatable
              //$this->belongsTo(relação, chave estrangeira local, primary key da relação);
         return $this->belongsTo('App\Models\Empresa', 'INT_ID_EMPRESA', 'INT_ID');
      }
+
+     //Relacionamento 1 para muitos
+    public function treino()
+    {
+        //     $this->hasMany(relação, chave estrangeira da relação, primary key local);
+        return $this->hasMany('App\Models\Treino', 'INT_ID_CADASTRO', 'INT_ID');
+    }
+
+   
 }
