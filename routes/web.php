@@ -51,26 +51,6 @@ Route::group(['middleware' => ['auth']], function () {
         return view('welcome');
     });
 
-    Route::get('/marcas', function () {
-        return view('cadastroMarca');
-    });
-
-    Route::get('/produtocategoria', function () {
-        return view('cadastroProdCategoria');
-    });
-
-    Route::get('/centrodecustos', function () {
-        return view('cadastroCentroCusto');
-    });
-
-    Route::get('/formadepagamento', function () {
-        return view('cadastroFormaPagamento');
-    });
-
-    Route::get('/formadeparcelamento', function () {
-        return view('cadastroParcelamentoParcelas');
-    });
-
     Route::get('/colaborador', function () {
         return view('cadastroColaborador');
     });
@@ -118,43 +98,6 @@ Route::group(['middleware' => ['auth']], function () {
         Auth::logout();
         return redirect()->to('/');
     });
-
-    // --------------- ROTAS MARCA ---------------------------
-    Route::get('/getmarca', function () {
-        return (MarcaController::getTodasMarcas(Auth::user()->INT_ID_EMPRESA));
-    });
-    Route::post('/setmarca/{id}/{cadAltera}/{idEMpresa}', [MarcaController::class, 'cadastraAltera']);
-    Route::get('/excluirmarca/{id}', [MarcaController::class, 'excluirMarca']);
-    //Route::post('/alterarmarca/{id}', [MarcaController::class,'alterarMarca']);
-
-    // --------------  ROTAS CATEGORIA DE PRODUTOS ---------------
-    Route::get('/getprodcategoria', function () {
-        return (ProdCategoriaController::getTodosProdCategoria(Auth::user()->INT_ID_EMPRESA));
-    });
-    Route::post('/setprodcategoria/{id}/{cadAltera}/{idEMpresa}', [ProdCategoriaController::class, 'cadastraAltera']);
-    Route::get('/delprodcategoria/{id}', [ProdCategoriaController::class, 'excluirProdCategoria']);
-
-    // ---------------- ROTAS CENTRO DE CUSTO --------------------
-    Route::get('/getcentrocusto', function () {
-        return (CentroCustoController::getTodosCC(Auth::user()->INT_ID_EMPRESA));
-    });
-    Route::post('/setcentrocusto/{id}/{cadAltera}/{idEMpresa}', [CentroCustoController::class, 'cadastraAltera']);
-    Route::get('/delcentrocusto/{id}', [CentroCustoController::class, 'excluir']);
-
-    // ---------------- ROTAS FORMAS DE PAGAMENTO --------------------
-    Route::get('/getformapagamento', function () {
-        return (FormaPagamentoController::getTodasFormaPagamento(Auth::user()->INT_ID_EMPRESA));
-    });
-    Route::post('/setformapagamento/{id}/{cadAltera}/{idEMpresa}', [FormaPagamentoController::class, 'cadastraAltera']);
-    Route::get('/delformapagamento/{id}', [FormaPagamentoController::class, 'excluir']);
-
-    // ---------------- ROTAS FORMA DE PARCELAMENTO --------------------
-    Route::get('/getformaparcelamento', function () {
-        return (FormaParcelamentoController::getTodasFormasParcelamento(Auth::user()->INT_ID_EMPRESA));
-    });
-    Route::post('/setformaparcelamento/{id}/{cadAltera}/{formParcela}/{idEMpresa}', [FormaParcelamentoController::class, 'cadastraAlteraFP']);
-    Route::post('/setparcelas/{id}/{cadAltera}', [FormaParcelamentoController::class, 'alteraParcelas']);
-    Route::get('/delformaparcelamento/{id}', [FormaParcelamentoController::class, 'excluirFP']);
 
     // ---------------- ROTAS COLABORADOR --------------------
     Route::get('/getcolaboradores', function () {

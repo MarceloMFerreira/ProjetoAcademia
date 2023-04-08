@@ -37,14 +37,15 @@
 
                             <div class="col-lg-6">
                                 <div class="p-5">
-                                    
+
                                     <div class="text-center mb-2">
                                         <h1 class="h4 text-gray-900 mb-2">
                                             Bem vindo!
                                         </h1>
-                                        <img src="admin_assets/img/ginastica.png" alt="Descrição da imagem" class="mx-auto d-block" style="width: 120px;" alt="Logo da academia">
+                                        <img src="admin_assets/img/ginastica.png" alt="Descrição da imagem"
+                                            class="mx-auto d-block" style="width: 120px;" alt="Logo da academia">
                                     </div>
-                                    
+
                                     <form class="user" method="post" action="/getlogin">
                                         @csrf
                                         <div class="form-group">
