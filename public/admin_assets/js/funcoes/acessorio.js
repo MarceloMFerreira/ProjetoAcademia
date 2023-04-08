@@ -1,12 +1,10 @@
 var aJson = [];
 var idSelecionadaParaExcluir = 0;
 var idEmpresa;
-var pilates;
 
 window.onload = function () {
     carregaAcessorios();
     habilitaDesabilitaBotoes(true, 0);
-    setMenuPilates();
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -218,19 +216,4 @@ function excluir() {
             alert(request.responseText);
         },
     });
-}
-
-// --------------------------- VERIFICA MENU PILATES -------------------------------
-function setMenuPilates() {
-    if (pilates) {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "block";
-        });
-    } else {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "none";
-        });
-    }
 }
