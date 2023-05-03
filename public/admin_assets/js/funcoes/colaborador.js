@@ -9,6 +9,37 @@ window.onload = function () {
     setMenuPilates();
 };
 
+document.addEventListener("DOMContentLoaded", function () {
+    document
+        .getElementById("inputFilter")
+        .addEventListener("keyup", function () {
+            filterTable();
+        });
+});
+
+function filterTable() {
+    // Obtenha o valor do input de pesquisa
+    var input = document.getElementById("inputFilter");
+    var filter = input.value.toUpperCase();
+
+    // Obtenha as linhas da tabela
+    var table = document.getElementById("dataTable");
+    var rows = table.getElementsByTagName("tr");
+
+    // Itere sobre as linhas e oculte aquelas que não correspondem ao filtro de pesquisa
+    for (var i = 0; i < rows.length; i++) {
+        var td = rows[i].getElementsByTagName("td")[1];
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+}
+
 // --------------------------- CONUFIGURA BOTÕES -------------------------------
 
 function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
@@ -17,9 +48,9 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
             '<button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>';
     } else {
         buton =
-            '<button type="button" class=" btn btn-success" onclick="excluir()">Sim</a>';
+            '<button type="button" class=" btn btn-success" onclick="excluir()">Confirmar</a>';
         buton +=
-            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Não</button>';
+            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Cancelar</button>';
     }
     $("#botoesModal").html(buton);
 }
@@ -27,28 +58,25 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
 function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
     if (cadastrar == true) {
         buton =
-            '<button class=" btn btn-success  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
+            '<a title="Atualizar"><button type="submit" data-toggle="modal" data-target="#exampleModal" name="updatebtn" id="btn" class="btn btn-success uptadebtn mr-2"  onclick="cadAltera(\'' +
             idAlterar +
             "','" +
             1 +
-            "')\">Cadastrar</button>";
+            "')\"><i class='fas fa-plus-circle'></i> Cadastrar</button> </a>";
         //buton='<button class=" btn btn-success  btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" onclick="chamaFuncaoPhp()">Cadastrar</button>';
     } else {
         buton =
-            '<a class=" btn btn-primary  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
+            '<a title="Atualizar"><button type="submit" data-toggle="modal" data-target="#exampleModal" name="updatebtn" id="btn" class="btn btn-primary uptadebtn mr-2" onclick="cadAltera(\'' +
             idAlterar +
             "','" +
             0 +
-            "')\">Alterar</a>";
+            "')\"><i class='fas fa-fw fa-pencil-alt'>&nbsp;</i>Atualizar</button> </a>";
         buton +=
-            '<a class=" btn  btn-lg btn-danger btn-block" data-toggle="modal" data-target="#exampleModal" onclick="preparaExclusao(' +
-            idAlterar +
-            ')">Excluir</a>';
-        buton +=
-            '  <a class=" btn btn-light btn-lg btn-block" onclick="cancelarEdicao()">Cancelar</a>';
+            '<a title="Cancelar"><button type="submit" class="btn btn-secondary" onclick="cancelarEdicao()"><i class="fas fa-ban"></i> Cancelar</button> </a>';
     }
     $("#botoes").html(buton);
 }
+
 
 // --------------------------- CARREGA COLABORADORES -------------------------------
 function carregaColaboradores() {
@@ -69,15 +97,33 @@ function carregaColaboradores() {
 
             cJson.forEach((value) => {
                 rows +=
-                    '<a class="dropdown-item" onclick="preencheCampos(\'' +
-                    value.TXT_NOME +
-                    "','" +
-                    value.TXT_EMAIL +
-                    "','" +
-                    value.INT_ID +
-                    "')\">" +
-                    value.TXT_NOME +
-                    "</a>";
+                "<tr>" +
+                "<td style='display:none;'>" +
+                value.INT_ID +
+                "</td>" +
+                "<td>" +
+                value.TXT_NOME +
+                "</td>" +
+                "<td>" +
+                value.TXT_EMAIL +
+                "</td>" +
+                "<td class='text-center d-flex align-items-end'>" +
+                "<a title='Atualizar' class='btn btn-sm btn-success mr-2'" +
+                "onclick=\"preencheCampos('" +
+                value.TXT_NOME +
+                "','" +
+                value.TXT_EMAIL +
+                "','" +
+                value.INT_ID +
+                "')\">" +
+                "<i class='fas fa-edit'>&nbsp;</i>Atualizar</a>" +
+                "<a title='Excluir' onclick=\"preparaExclusao(" +
+                value.INT_ID +
+                ')"' +
+                "data-toggle='modal' data-target='#exampleModal'" +
+                "class='btn btn-sm btn-danger'><i class='fas fa-trash-alt'>&nbsp;</i>Excluir</a>" +
+                "</td>" +
+                "</tr>";
             });
 
             $("#datagrid").html(rows);
@@ -131,10 +177,10 @@ function verificaSenha() {
         document.getElementById("txtConfirmaSenha").value !=
         document.getElementById("txtSenha").value
     ) {
-        document.getElementById("botao").disabled = true;
+        document.getElementById("btn").disabled = true;
         div.innerText = "Senha inválida!";
     } else {
-        document.getElementById("botao").disabled = false;
+        document.getElementById("btn").disabled = false;
         div.innerText = "";
     }
 }

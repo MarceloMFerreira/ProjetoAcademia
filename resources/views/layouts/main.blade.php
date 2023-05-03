@@ -113,6 +113,8 @@
                         <h6 class="collapse-header">Cadastrar Parâmetros:</h6>
                         <a class="collapse-item" href="/acessorios">Acessório</a>
                         <a class="collapse-item" href="/aparelhos">Aparelho</a>
+                        <a class="collapse-item" href="/clientefornecedor">Cliente/Fornecedor</a>
+                        <a class="collapse-item" href="/colaborador">Colaboradores</a>
                         <a class="collapse-item" href="/tipotreino">Tipos de Treino</a>
                     </div>
                 </div>

@@ -6,6 +6,10 @@ var idSalvo;
 var idContato = 0;
 var pilates;
 
+//TO FAZENDO ESSE TREM AQUI, EU ACHO QUE JA TA TUDO FUNCIONAL
+//SÓ FALTA ESTILIZAR MELHOR OS BOTÕES, ABRE AI QUE TU VE, O BOTÃO DE CONTATO TA FEIO PRA PORRA
+//E OS BOTÕES NORMAIS EU ESQEUCI DE COLOCAR O ICONE
+
 window.onload = function () {
     document.getElementById("estado").value = "MG";
     carregaClientes();
@@ -22,6 +26,37 @@ window.onload = function () {
     }
     setMenuPilates();
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+    document
+        .getElementById("inputFilter")
+        .addEventListener("keyup", function () {
+            filterTable();
+        });
+});
+
+function filterTable() {
+    // Obtenha o valor do input de pesquisa
+    var input = document.getElementById("inputFilter");
+    var filter = input.value.toUpperCase();
+
+    // Obtenha as linhas da tabela
+    var table = document.getElementById("dataTable");
+    var rows = table.getElementsByTagName("tr");
+
+    // Itere sobre as linhas e oculte aquelas que não correspondem ao filtro de pesquisa
+    for (var i = 0; i < rows.length; i++) {
+        var td = rows[i].getElementsByTagName("td")[1];
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+}
 // --------------------------- CONUFIGURA BOTÕES -------------------------------
 
 function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
@@ -30,9 +65,9 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
             '<button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>';
     } else {
         buton =
-            '<button type="button" class=" btn btn-success" onclick="excluir()">Sim</a>';
+            '<button type="button" class=" btn btn-success" onclick="excluir()">Confirmar</a>';
         buton +=
-            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Não</button>';
+            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Cancelar</button>';
     }
     $("#botoesModal").html(buton);
 }
@@ -43,9 +78,11 @@ function habilitaDesabilitaBotoesModalContato(apenasBotaoOk, index) {
             '<button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>';
     } else {
         buton =
-            '<button type="button" class=" btn btn-success" onclick="excluirContato(\'' + index + "')\">Sim</a>";
+            '<button type="button" class=" btn btn-success" onclick="excluirContato(\'' +
+            index +
+            "')\">Confirmar</a>";
         buton +=
-            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">Não</button>';
+            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="">Cancelar</button>';
     }
     $("#botoesModal").html(buton);
 }
@@ -53,7 +90,7 @@ function habilitaDesabilitaBotoesModalContato(apenasBotaoOk, index) {
 function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
     if (cadastrar == true) {
         buton =
-            '<a class=" btn btn-success  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
+            '<a class="btn btn-success uptadebtn mr-2" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
             idAlterar +
             "','" +
             1 +
@@ -61,17 +98,13 @@ function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
         //buton='<button class=" btn btn-success  btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" onclick="chamaFuncaoPhp()">Cadastrar</button>';
     } else {
         buton =
-            '<a class=" btn btn-primary  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
+            '<a class="btn btn-primary uptadebtn mr-2" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
             idAlterar +
             "','" +
             0 +
             "')\">Alterar</a>";
         buton +=
-            '<a class=" btn  btn-lg btn-danger btn-block" data-toggle="modal" data-target="#exampleModal" onclick="preparaExclusao(' +
-            idAlterar +
-            ')">Excluir</a>';
-        buton +=
-            '  <a class=" btn btn-light btn-lg btn-block" onclick="cancelarEdicao()">Novo Cadastro</a>';
+            '  <a class="btn btn-secondary" onclick="cancelarEdicao()">Novo Cadastro</a>';
     }
     $("#botoes").html(buton);
 }
@@ -79,7 +112,7 @@ function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
 function habilitaDesabilitaBotoesContato(cadastrar, idAlterar) {
     if (cadastrar == true) {
         buton =
-            '<a class=" btn btn-success  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
+            '<a class="btn btn-success uptadebtn mr-2" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
             idAlterar +
             "','" +
             1 +
@@ -87,17 +120,17 @@ function habilitaDesabilitaBotoesContato(cadastrar, idAlterar) {
         //buton='<button class=" btn btn-success  btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" onclick="chamaFuncaoPhp()">Cadastrar</button>';
     } else {
         buton =
-            '<a class=" btn btn-primary  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
+            '<a class="btn btn-primary uptadebtn mr-2" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAlteraClienteFornecedor(\'' +
             idAlterar +
             "','" +
             0 +
             "')\">Alterar</a>";
         buton +=
-            '<a class=" btn  btn-lg btn-danger btn-block" data-toggle="modal" data-target="#exampleModal" onclick="preparaExclusaoContato(' +
+            '<a class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onclick="preparaExclusaoContato(' +
             idAlterar +
             ')">Excluir</a>';
         buton +=
-            '  <a class=" btn btn-light btn-lg btn-block" onclick="cancelarEdicao()">Novo Cadastro</a>';
+            '  <a class="btn btn-secondary" onclick="cancelarEdicao()">Novo Cadastro</a>';
     }
     $("#botoes").html(buton);
 }
@@ -118,12 +151,68 @@ function carregaClientes() {
             idEmpresa = resultado.idEmpresa;
             pilates = resultado.boolPilates;
 
-            rows +=
-                '<form class="px-4 py-2">' +
-                '<input type="search" class="form-control" id="myInput" placeholder="Busque o nome" autofocus="autofocus" onkeyup="filterFunction()">' +
-                "</form>";
-
             json.forEach((value) => {
+                rows +=
+                "<tr>" +
+                "<td style='display:none;'>" +
+                value.INT_ID +
+                "</td>" +
+                "<td>" +
+                value.TXT_NOME +
+                "</td>" +
+                "<td>" +
+                value.TXT_CPF_CNPJ +
+                "</td>" +
+                "<td class='text-center d-flex align-items-end'>" +
+                "<a title='Atualizar' class='btn btn-sm btn-success mr-2'" +
+                "onclick=\"preencheCampos('" +
+                value.TXT_NOME +
+                "','" +
+                value.BOOL_PF_PJ +
+                "','" +
+                value.TXT_NOME_FANTASIA +
+                "','" +
+                value.TXT_CPF_CNPJ +
+                "','" +
+                value.TXT_RUA +
+                "','" +
+                value.TXT_BAIRRO +
+                "','" +
+                value.TXT_CIDADE +
+                "','" +
+                value.TXT_NUMERO +
+                "','" +
+                value.TXT_UF +
+                "','" +
+                value.TXT_CEP +
+                "','" +
+                value.BOOL_PACIENTE +
+                "','" +
+                value.TXT_QUEIXA +
+                "','" +
+                value.DATE_NASCIMENTO +
+                "','" +
+                value.TXT_PROFISSAO +
+                "','" +
+                value.CHAR_DESTRO_CANHOTO +
+                "','" +
+                value.TXT_FOTO +
+                "','" +
+                value.CHAR_SEXO +
+                "','" +
+                value.INT_ID +
+                "')\">" +
+                "<i class='fas fa-edit'>&nbsp;</i>Atualizar</a>" +
+                "<a title='Excluir' onclick=\"preparaExclusao(" +
+                value.INT_ID +
+                ')"' +
+                "data-toggle='modal' data-target='#exampleModal'" +
+                "class='btn btn-sm btn-danger'><i class='fas fa-trash-alt'>&nbsp;</i>Excluir</a>" +
+                "</td>" +
+                "</tr>";
+
+
+
                 rows +=
                     '<a class="dropdown-item" onclick="preencheCampos(\'' +
                     value.TXT_NOME +
@@ -390,7 +479,7 @@ function desabilitarChcWPP() {
     } else {
         document.getElementById("chcWPP").disabled = false;
         document.getElementById("txtEmailTel").placeholder =
-            "Informe o telefone (DDD + número - SOMENTE NÚMEROS, SEM ESPAÇO OU TRAÇOS)";
+            "Informe o telefone (DDD + número)";
         document.getElementById("txtEmailTel").type = "number";
         document.getElementById("btnAdicionarContato").disabled = false;
         div.innerText = "";
@@ -487,8 +576,8 @@ function preencheCampos(
     CHAR_SEXO,
     id
 ) {
-    x = document.getElementById("dropdownMenuLink");
-    x.style.display = "none";
+    // x = document.getElementById("dropdownMenuLink");
+    // x.style.display = "none";
     checkbox = document.getElementById("chcPaciente");
 
     if (BOOL_PF_PJ == 1) {
@@ -560,26 +649,26 @@ function montaTabela() {
                     "<a target='_blank' rel='noopener noreferrer' href='mailto:" +
                     jsonContato[index].TXT_CONTATO +
                     "'>" +
-                    "<img src='img/e-mail.png' width='30'>" +
+                    "<img src='admin_assets/img/e-mail.png' width='20'>" +
                     "</a>";
             } else if (jsonContato[index].BOOL_WPP == 1) {
                 wpp =
                     "<a target='_blank' rel='noopener noreferrer' href='tel:+55" +
                     jsonContato[index].TXT_CONTATO +
                     "'>" +
-                    "<img src='img/telefone.png' width='30'>" +
+                    "<img src='admin_assets/img/telefone.png' width='20'>" +
                     "</a>" +
                     "<a class='ml-2' target='_blank' rel='noopener noreferrer' href='https://api.whatsapp.com/send?l=pt&phone=55" +
                     jsonContato[index].TXT_CONTATO +
                     "'>" +
-                    "<img src='img/whatsapp.png' width='30'>" +
+                    "<img src='admin_assets/img/whatsapp.png' width='20'>" +
                     "</a>";
             } else {
                 wpp =
                     "<a target='_blank' rel='noopener noreferrer' href='tel:+55" +
                     jsonContato[index].TXT_CONTATO +
                     "'>" +
-                    "<img src='img/telefone.png' width='30'>" +
+                    "<img src='admin_assets/img/telefone.png' width='20'>" +
                     "</a>";
             }
 
@@ -874,7 +963,8 @@ function cadAlteraContato(_idContato, cadAltera) {
                 document.getElementById("txtEmailTel").value = "";
                 document.getElementById("chcWPP").checked = false;
                 idContato = 0;
-                document.getElementById("btnAdicionarContato").textContent = "Adicionar";
+                document.getElementById("btnAdicionarContato").textContent =
+                    "Adicionar";
             },
             error: function (request, status, error) {
                 document.getElementById("result").textContent =
