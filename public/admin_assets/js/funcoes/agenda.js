@@ -5,6 +5,11 @@ var pilates;
 var idglobalPaciente;
 var idUsuarioAtivo = 0;
 
+//NÃO MEXI EM NADA AQUI AINDA, FALTA ARRUMAR OS BOTÕES DO HABILITAR BOTÕES
+//ACHO QUE JA TA SALVANDO OS HORÁRIOS MAS TEM QUE PRESTAR ATENÇÃO NISSO
+//NÃO TA ATUALIZANDO QUANDO EU EXCLUO ALGUM TREINO
+//DE RESTO PARECE QUE TA FUNCIONANDO
+
 window.onload = function () {
     carregaAgenda();
     habilitaDesabilitaBotoes(true, 0);
@@ -187,250 +192,73 @@ function iniciaTreinoComAgendamento(idPaciente, idAgendamento, inicio, final) {
 
 // ---------------------------  EDIÇÃO -------------------------------
 function montaTabela() {
-    var tbrows = "";
+    var tbody = document.getElementById("datagrid1");
+    tbody.innerHTML = ""; // Limpa o conteúdo atual da tabela
+
     var index = 0;
     date = document.getElementById("dtFiltro").value;
 
     var radio1 = document.getElementById("emAberto");
-
-    if (radio1.checked) {
-        json.forEach((value) => {
-            dateEdit = value.DATE_INICIO_AGENDOU.slice(0, 10);
-            if (dateEdit == date && value.treino.length == 0) {
-                tbrows +=
-                    "<div class='col-lg-4' style='margin-bottom: 10px;' >" +
-                    "<div class='card border-dark cardRelatorio'>" +
-                    "<div class='card-header  text-center'>" +
-                    "<h5 class='card-title'><span style='font-weight:bold;'>Horário:</span> " +
-                    value.DATE_INICIO_AGENDOU.slice(10, 16) +
-                    " - " +
-                    value.DATE_FIM_AGENDOU.slice(10, 16) +
-                    "</h5>" +
-                    "</div>" +
-                    "<div class='card-body text-center'>" +
-                    "<p class='card-text' style='margin-bottom: 0;'><span style='font-weight:bold;'>Paciente:</span></p>" +
-                    "<h5 class='card-title' style='margin-bottom: 10px;'>" +
-                    value.paciente.TXT_NOME +
-                    "</h5>" +
-                    "<p class='card-text'></br>" +
-                    '<button type="button" class="btn btn-secondary" onclick="iniciaTreinoComAgendamento(\'' +
-                    value.paciente.INT_ID +
-                    "','" +
-                    value.INT_ID +
-                    "','" +
-                    value.DATE_INICIO_AGENDOU.slice(0, 10) +
-                    "T" +
-                    value.DATE_INICIO_AGENDOU.slice(11, 16) +
-                    "','" +
-                    value.DATE_FIM_AGENDOU.slice(0, 10) +
-                    "T" +
-                    value.DATE_FIM_AGENDOU.slice(11, 16) +
-                    "')\"> Iniciar Treino</button>" +
-                    "</p>" +
-                    "</div>" +
-                    "<div class='card-footer text-center'>" +
-                    "<button class='btn btn-primary espaco-direita'" +
-                    "onclick=\"preencheCampos('" +
-                    value.DATE_INICIO_AGENDOU +
-                    "','" +
-                    value.DATE_FIM_AGENDOU +
-                    "','" +
-                    value.INT_ID_PACIENTE +
-                    "','" +
-                    value.paciente.TXT_NOME +
-                    "','" +
-                    value.paciente.TXT_FOTO +
-                    "','" +
-                    value.INT_ID +
-                    "')\"> Editar</button>" +
-                    '<button class="btn btn-danger" data-toggle="modal"' +
-                    'data-target="#exampleModal"  onclick="preparaExclusao(\'' +
-                    value.INT_ID +
-                    "')\"> Excluir</button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-            }
-            index++;
-        });
-    }
-
     var radio2 = document.getElementById("iniciados");
-
-    if (radio2.checked) {
-        json.forEach((value) => {
-            dateEdit = value.DATE_INICIO_AGENDOU.slice(0, 10);
-            if (dateEdit == date && value.treino.length > 0) {
-                tbrows +=
-                    "<div class='col-lg-4' style='margin-bottom: 10px;' >" +
-                    "<div class='card border-dark cardRelatorio'>" +
-                    "<div class='card-header  text-center'>" +
-                    "<h5 class='card-title'><span style='font-weight:bold;'>Horário:</span> " +
-                    value.DATE_INICIO_AGENDOU.slice(10, 16) +
-                    " - " +
-                    value.DATE_FIM_AGENDOU.slice(10, 16) +
-                    "</h5>" +
-                    "</div>" +
-                    "<div class='card-body text-center'>" +
-                    "<p class='card-text' style='margin-bottom: 0;'><span style='font-weight:bold;'>Paciente:</span></p>" +
-                    "<h5 class='card-title' style='margin-bottom: 10px;'>" +
-                    value.paciente.TXT_NOME +
-                    "</h5>" +
-                    "<p class='card-text'></br>" +
-                    '<button type="button" class="btn btn-secondary" onclick="iniciaTreinoComAgendamento(\'' +
-                    value.paciente.INT_ID +
-                    "','" +
-                    value.INT_ID +
-                    "','" +
-                    value.DATE_INICIO_AGENDOU.slice(0, 10) +
-                    "T" +
-                    value.DATE_INICIO_AGENDOU.slice(11, 16) +
-                    "','" +
-                    value.DATE_FIM_AGENDOU.slice(0, 10) +
-                    "T" +
-                    value.DATE_FIM_AGENDOU.slice(11, 16) +
-                    "')\" disabled> Treino Iniciado</button>" +
-                    "</p>" +
-                    "</div>" +
-                    "<div class='card-footer text-center'>" +
-                    "<button class='btn btn-primary espaco-direita'" +
-                    "onclick=\"preencheCampos('" +
-                    value.DATE_INICIO_AGENDOU +
-                    "','" +
-                    value.DATE_FIM_AGENDOU +
-                    "','" +
-                    value.INT_ID_PACIENTE +
-                    "','" +
-                    value.paciente.TXT_NOME +
-                    "','" +
-                    value.paciente.TXT_FOTO +
-                    "','" +
-                    value.INT_ID +
-                    "')\" disabled> Editar</button>" +
-                    '<button class="btn btn-danger" data-toggle="modal"' +
-                    'data-target="#exampleModal"  onclick="preparaExclusao(\'' +
-                    value.INT_ID +
-                    "')\" disabled> Excluir</button>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>";
-            }
-            index++;
-        });
-    }
-
     var radio3 = document.getElementById("todos");
 
-    if (radio3.checked) {
-        json.forEach((value) => {
-            dateEdit = value.DATE_INICIO_AGENDOU.slice(0, 10);
-            if (dateEdit == date) {
-                tbrows +=
-                    "<div class='col-lg-4' style='margin-bottom: 10px;' >" +
-                    "<div class='card border-dark cardRelatorio'>" +
-                    "<div class='card-header  text-center'>" +
-                    "<h5 class='card-title'><span style='font-weight:bold;'>Horário:</span> " +
-                    value.DATE_INICIO_AGENDOU.slice(10, 16) +
-                    " - " +
-                    value.DATE_FIM_AGENDOU.slice(10, 16) +
-                    "</h5>" +
-                    "</div>" +
-                    "<div class='card-body text-center'>" +
-                    "<p class='card-text' style='margin-bottom: 0;'><span style='font-weight:bold;'>Paciente:</span></p>" +
-                    "<h5 class='card-title' style='margin-bottom: 10px;'>" +
-                    value.paciente.TXT_NOME +
-                    "</h5>" +
-                    "<p class='card-text'></br>";
+    json.forEach((value) => {
+        dateEdit = value.DATE_INICIO_AGENDOU.slice(0, 10);
+        if ((radio1.checked && dateEdit == date && value.treino.length == 0) ||
+            (radio2.checked && dateEdit == date && value.treino.length > 0) ||
+            (radio3.checked && dateEdit == date)) {
 
-                if (value.treino.length == 0) {
-                    tbrows +=
-                        '<button type="button" class="btn btn-secondary" onclick="iniciaTreinoComAgendamento(\'' +
-                        value.paciente.INT_ID +
-                        "','" +
-                        value.INT_ID +
-                        "','" +
-                        value.DATE_INICIO_AGENDOU.slice(0, 10) +
-                        "T" +
-                        value.DATE_INICIO_AGENDOU.slice(11, 16) +
-                        "','" +
-                        value.DATE_FIM_AGENDOU.slice(0, 10) +
-                        "T" +
-                        value.DATE_FIM_AGENDOU.slice(11, 16) +
-                        "')\"> Iniciar Treino</button>";
+            var row = tbody.insertRow();
 
-                    tbrows +=
-                        "</p>" +
-                        "</div>" +
-                        "<div class='card-footer text-center'>" +
-                        "<button class='btn btn-primary espaco-direita'" +
-                        "onclick=\"preencheCampos('" +
-                        value.DATE_INICIO_AGENDOU +
-                        "','" +
-                        value.DATE_FIM_AGENDOU +
-                        "','" +
-                        value.INT_ID_PACIENTE +
-                        "','" +
-                        value.paciente.TXT_NOME +
-                        "','" +
-                        value.paciente.TXT_FOTO +
-                        "','" +
-                        value.INT_ID +
-                        "')\"> Editar</button>" +
-                        '<button class="btn btn-danger" data-toggle="modal"' +
-                        'data-target="#exampleModal"  onclick="preparaExclusao(\'' +
-                        value.INT_ID +
-                        "')\"> Excluir</button>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>";
-                } else {
-                    tbrows +=
-                        '<button type="button" class="btn btn-secondary" onclick="iniciaTreinoComAgendamento(\'' +
-                        value.paciente.INT_ID +
-                        "','" +
-                        value.INT_ID +
-                        "','" +
-                        value.DATE_INICIO_AGENDOU.slice(0, 10) +
-                        "T" +
-                        value.DATE_INICIO_AGENDOU.slice(11, 16) +
-                        "','" +
-                        value.DATE_FIM_AGENDOU.slice(0, 10) +
-                        "T" +
-                        value.DATE_FIM_AGENDOU.slice(11, 16) +
-                        "')\" disabled> Treino Iniciado</button>";
+            // Coluna do Horário
+            var cellHorario = row.insertCell();
+            cellHorario.textContent = value.DATE_INICIO_AGENDOU.slice(10, 16) + " - " + value.DATE_FIM_AGENDOU.slice(10, 16);
 
-                    tbrows +=
-                        "</p>" +
-                        "</div>" +
-                        "<div class='card-footer text-center'>" +
-                        "<button class='btn btn-primary espaco-direita'" +
-                        "onclick=\"preencheCampos('" +
-                        value.DATE_INICIO_AGENDOU +
-                        "','" +
-                        value.DATE_FIM_AGENDOU +
-                        "','" +
-                        value.INT_ID_PACIENTE +
-                        "','" +
-                        value.paciente.TXT_NOME +
-                        "','" +
-                        value.paciente.TXT_FOTO +
-                        "','" +
-                        value.INT_ID +
-                        "')\" disabled> Editar</button>" +
-                        '<button class="btn btn-danger" data-toggle="modal"' +
-                        'data-target="#exampleModal"  onclick="preparaExclusao(\'' +
-                        value.INT_ID +
-                        "')\" disabled> Excluir</button>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>";
-                }
+            // Coluna do Paciente
+            var cellPaciente = row.insertCell();
+            cellPaciente.textContent = value.paciente.TXT_NOME;
+
+            // Coluna do Iniciar Treino
+            var cellIniciarTreino = row.insertCell();
+            if (value.treino.length == 0) {
+                var iniciarTreinoButton = document.createElement("button");
+                iniciarTreinoButton.type = "button";
+                iniciarTreinoButton.className = "btn btn-secondary";
+                iniciarTreinoButton.textContent = "Iniciar Treino";
+                iniciarTreinoButton.addEventListener("click", function() {
+                    iniciaTreinoComAgendamento(value.paciente.INT_ID, value.INT_ID, value.DATE_INICIO_AGENDOU.slice(0, 10) + "T" + value.DATE_INICIO_AGENDOU.slice(11, 16), value.DATE_FIM_AGENDOU.slice(0, 10) + "T" + value.DATE_FIM_AGENDOU.slice(11, 16));
+                });
+                cellIniciarTreino.appendChild(iniciarTreinoButton);
+            } else {
+                cellIniciarTreino.textContent = "Treino Iniciado";
+                cellIniciarTreino.disabled = true;
             }
-            index++;
-        });
-    }
 
-    $("#datagrid1").html(tbrows);
+            // Coluna das Ações
+            var cellAcoes = row.insertCell();
+            cellAcoes.className = "text-center col-2";
+            
+            var editarButton = document.createElement("button");
+            editarButton.className = "btn btn-primary espaco-direita";
+            editarButton.textContent = "Editar";
+            editarButton.addEventListener("click", function() {
+                preencheCampos(value.DATE_INICIO_AGENDOU, value.DATE_FIM_AGENDOU, value.INT_ID_PACIENTE, value.paciente.TXT_NOME, value.paciente.TXT_FOTO, value.INT_ID);
+            });
+            cellAcoes.appendChild(editarButton);
+
+            var excluirButton = document.createElement("button");
+            excluirButton.className = "btn btn-danger";
+            excluirButton.textContent = "Excluir";
+            excluirButton.setAttribute("data-toggle", "modal");
+            excluirButton.setAttribute("data-target", "#exampleModal");
+            excluirButton.addEventListener("click", function() {
+                preparaExclusao(value.INT_ID);
+            });
+            cellAcoes.appendChild(excluirButton);
+
+            index++;
+        }
+    });
 }
 
 function preencheCampos(
@@ -567,18 +395,4 @@ function excluir() {
             alert(request.responseText);
         },
     });
-}
-// --------------------------- VERIFICA MENU PILATES -------------------------------
-function setMenuPilates() {
-    if (pilates) {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "block";
-        });
-    } else {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "none";
-        });
-    }
 }

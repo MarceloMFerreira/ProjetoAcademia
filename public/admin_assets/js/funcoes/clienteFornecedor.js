@@ -6,10 +6,6 @@ var idSalvo;
 var idContato = 0;
 var pilates;
 
-//TO FAZENDO ESSE TREM AQUI, EU ACHO QUE JA TA TUDO FUNCIONAL
-//SÓ FALTA ESTILIZAR MELHOR OS BOTÕES, ABRE AI QUE TU VE, O BOTÃO DE CONTATO TA FEIO PRA PORRA
-//E OS BOTÕES NORMAIS EU ESQEUCI DE COLOCAR O ICONE
-
 window.onload = function () {
     document.getElementById("estado").value = "MG";
     carregaClientes();
@@ -94,7 +90,7 @@ function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
             idAlterar +
             "','" +
             1 +
-            "')\">Cadastrar</a>";
+            "')\"><i class='fas fa-plus-circle'></i> Cadastrar</a>";
         //buton='<button class=" btn btn-success  btn-lg btn-block" data-toggle="modal" data-target="#exampleModal" onclick="chamaFuncaoPhp()">Cadastrar</button>';
     } else {
         buton =
@@ -102,9 +98,9 @@ function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
             idAlterar +
             "','" +
             0 +
-            "')\">Alterar</a>";
+            "')\"><i class='fas fa-fw fa-pencil-alt'>&nbsp;</i> Alterar</a>";
         buton +=
-            '  <a class="btn btn-secondary" onclick="cancelarEdicao()">Novo Cadastro</a>';
+            '  <a class="btn btn-secondary" onclick="cancelarEdicao()"><i class="fas fa-plus-circle"></i> Novo Cadastro</a>';
     }
     $("#botoes").html(buton);
 }

@@ -11,7 +11,7 @@
         <!-- Adiciona o Bootstrap -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
             integrity="sha384-OgVRvuATP1z7JjHLkuOU6Xw704+hkHcMOeclPZf3m6z1LqGKP5AZgJwVRMIj7xSf" crossorigin="anonymous">
-        <title>Cadastrar Colaborador</title>
+        <title>Cadastrar Cliente / Fornecedor</title>
     </head>
 
     <body>
@@ -22,7 +22,7 @@
                 <div class="card-header py-3">
                     <div class="row">
                         <div class="col-md-8">
-                            <h6 class="m-0 font-weight-bold text-primary">Cadastrar Colaborador</h6>
+                            <h6 class="m-0 font-weight-bold text-primary">Cadastrar Cliente / Fornecedor</h6>
                         </div>
                     </div>
                 </div>
