@@ -38,9 +38,9 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
             '<button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>';
     } else {
         buton =
-            '<button type="button" class=" btn btn-success" onclick="excluir()">Sim</a>';
+            '<button type="button" class=" btn btn-success" onclick="excluir()">Confirmar</a>';
         buton +=
-            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Não</button>';
+            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Cancelar</button>';
     }
     $("#botoesModal").html(buton);
 }
@@ -48,20 +48,20 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
 function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
     if (cadastrar == true) {
         buton =
-            '<a class=" btn btn-success  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
+            '<a class=" btn btn-success" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
             idAlterar +
             "','" +
             1 +
-            "')\">Cadastrar</a>";
+            "')\"><i class='fas fa-plus-circle'> Cadastrar</a>";
     } else {
         buton =
-            '<a class=" btn btn-primary  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
+            '<a class=" btn btn-primary" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
             idAlterar +
             "','" +
             0 +
-            "')\">Alterar</a>";
+            "')\"><i class='fas fa-fw fa-pencil-alt'>&nbsp;</i> Alterar</a>";
         buton +=
-            '  <a class=" btn btn-light btn-lg btn-block" onclick="cancelarEdicao()">Cancelar</a>';
+            '  <a class=" btn btn-light" onclick="cancelarEdicao()"><i class="fas fa-ban"></i> Cancelar</a>';
     }
     $("#botoes").html(buton);
 }
@@ -204,57 +204,80 @@ function montaTabela() {
 
     json.forEach((value) => {
         dateEdit = value.DATE_INICIO_AGENDOU.slice(0, 10);
-        if ((radio1.checked && dateEdit == date && value.treino.length == 0) ||
+        if (
+            (radio1.checked && dateEdit == date && value.treino.length == 0) ||
             (radio2.checked && dateEdit == date && value.treino.length > 0) ||
-            (radio3.checked && dateEdit == date)) {
-
+            (radio3.checked && dateEdit == date)
+        ) {
             var row = tbody.insertRow();
 
             // Coluna do Horário
             var cellHorario = row.insertCell();
-            cellHorario.textContent = value.DATE_INICIO_AGENDOU.slice(10, 16) + " - " + value.DATE_FIM_AGENDOU.slice(10, 16);
+            cellHorario.textContent =
+                value.DATE_INICIO_AGENDOU.slice(10, 16) +
+                " - " +
+                value.DATE_FIM_AGENDOU.slice(10, 16);
 
             // Coluna do Paciente
             var cellPaciente = row.insertCell();
             cellPaciente.textContent = value.paciente.TXT_NOME;
 
-            // Coluna do Iniciar Treino
-            var cellIniciarTreino = row.insertCell();
-            if (value.treino.length == 0) {
-                var iniciarTreinoButton = document.createElement("button");
-                iniciarTreinoButton.type = "button";
-                iniciarTreinoButton.className = "btn btn-secondary";
-                iniciarTreinoButton.textContent = "Iniciar Treino";
-                iniciarTreinoButton.addEventListener("click", function() {
-                    iniciaTreinoComAgendamento(value.paciente.INT_ID, value.INT_ID, value.DATE_INICIO_AGENDOU.slice(0, 10) + "T" + value.DATE_INICIO_AGENDOU.slice(11, 16), value.DATE_FIM_AGENDOU.slice(0, 10) + "T" + value.DATE_FIM_AGENDOU.slice(11, 16));
-                });
-                cellIniciarTreino.appendChild(iniciarTreinoButton);
-            } else {
-                cellIniciarTreino.textContent = "Treino Iniciado";
-                cellIniciarTreino.disabled = true;
-            }
-
             // Coluna das Ações
             var cellAcoes = row.insertCell();
             cellAcoes.className = "text-center col-2";
-            
+            // Botão Iniciar Treino
+            if (value.treino.length == 0) {
+                var iniciarTreinoButton = document.createElement("button");
+                iniciarTreinoButton.type = "button";
+                iniciarTreinoButton.className = "btn btn-sm btn-info mr-2";
+                iniciarTreinoButton.innerHTML =
+                    "<i class='fas fa-wrench'></i> Iniciar Treino";
+                iniciarTreinoButton.addEventListener("click", function () {
+                    iniciaTreinoComAgendamento(
+                        value.paciente.INT_ID,
+                        value.INT_ID,
+                        value.DATE_INICIO_AGENDOU.slice(0, 10) +
+                            "T" +
+                            value.DATE_INICIO_AGENDOU.slice(11, 16),
+                        value.DATE_FIM_AGENDOU.slice(0, 10) +
+                            "T" +
+                            value.DATE_FIM_AGENDOU.slice(11, 16)
+                    );
+                });
+                cellAcoes.appendChild(iniciarTreinoButton);
+            } else {
+                var treinoIniciadoText = document.createElement("span");
+                treinoIniciadoText.textContent = "Treino Iniciado";
+                cellAcoes.appendChild(treinoIniciadoText);
+            }
+
             var editarButton = document.createElement("button");
-            editarButton.className = "btn btn-primary espaco-direita";
-            editarButton.textContent = "Editar";
-            editarButton.addEventListener("click", function() {
-                preencheCampos(value.DATE_INICIO_AGENDOU, value.DATE_FIM_AGENDOU, value.INT_ID_PACIENTE, value.paciente.TXT_NOME, value.paciente.TXT_FOTO, value.INT_ID);
+            editarButton.className = "btn btn-sm btn-success mr-2";
+            editarButton.innerHTML = "<i class='fas fa-edit'></i> Editar";
+            editarButton.addEventListener("click", function () {
+                preencheCampos(
+                    value.DATE_INICIO_AGENDOU,
+                    value.DATE_FIM_AGENDOU,
+                    value.INT_ID_PACIENTE,
+                    value.paciente.TXT_NOME,
+                    value.paciente.TXT_FOTO,
+                    value.INT_ID
+                );
             });
             cellAcoes.appendChild(editarButton);
 
             var excluirButton = document.createElement("button");
-            excluirButton.className = "btn btn-danger";
-            excluirButton.textContent = "Excluir";
+            excluirButton.className = "btn btn-sm btn-danger mr-2";
+            excluirButton.innerHTML =
+                "<i class='fas fa-trash-alt'></i> Excluir";
             excluirButton.setAttribute("data-toggle", "modal");
             excluirButton.setAttribute("data-target", "#exampleModal");
-            excluirButton.addEventListener("click", function() {
+            excluirButton.addEventListener("click", function () {
                 preparaExclusao(value.INT_ID);
             });
             cellAcoes.appendChild(excluirButton);
+
+            
 
             index++;
         }
@@ -292,7 +315,7 @@ function cancelarEdicao() {
     document.getElementById("inicioTreino").value = "";
     document.getElementById("finalTreino").value = "";
     document.getElementById("nomePaciente").value = "";
-    document.getElementById("tempoTreino").value = "";
+    //document.getElementById("tempoTreino").value = "";
 
     var editarImg = "";
     $("#editImagem").html(editarImg);

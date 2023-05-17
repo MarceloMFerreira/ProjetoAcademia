@@ -106,10 +106,9 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th style="display:none;">cod</th>
-                                        <th>Horário</th>
+                                        <th class="text-center col-2">Horário</th>
                                         <th>Paciente</th>
-                                        <th>Iniciar Treino</th>
-                                        <th class="text-center col-2" data-orderable="false">Ações</th>
+                                        <th class="text-center col-4" data-orderable="false">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="datagrid1">

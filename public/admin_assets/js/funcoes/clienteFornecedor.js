@@ -198,7 +198,7 @@ function carregaClientes() {
                 "','" +
                 value.INT_ID +
                 "')\">" +
-                "<i class='fas fa-edit'>&nbsp;</i>Atualizar</a>" +
+                "<i class='fas fa-edit'>&nbsp;</i> Editar</a>" +
                 "<a title='Excluir' onclick=\"preparaExclusao(" +
                 value.INT_ID +
                 ')"' +

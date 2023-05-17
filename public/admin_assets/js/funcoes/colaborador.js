@@ -70,7 +70,7 @@ function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
             idAlterar +
             "','" +
             0 +
-            "')\"><i class='fas fa-fw fa-pencil-alt'>&nbsp;</i>Atualizar</button> </a>";
+            "')\"><i class='fas fa-fw fa-pencil-alt'>&nbsp;</i> Editar</button> </a>";
         buton +=
             '<a title="Cancelar"><button type="submit" class="btn btn-secondary" onclick="cancelarEdicao()"><i class="fas fa-ban"></i> Cancelar</button> </a>';
     }
@@ -116,7 +116,7 @@ function carregaColaboradores() {
                 "','" +
                 value.INT_ID +
                 "')\">" +
-                "<i class='fas fa-edit'>&nbsp;</i>Atualizar</a>" +
+                "<i class='fas fa-edit'>&nbsp;</i>Editar</a>" +
                 "<a title='Excluir' onclick=\"preparaExclusao(" +
                 value.INT_ID +
                 ')"' +
