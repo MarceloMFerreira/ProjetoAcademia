@@ -55,7 +55,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Interface
+                Utilidades
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->

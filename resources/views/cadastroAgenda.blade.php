@@ -32,18 +32,17 @@
                         <div class="row">
                             <div class="col">
                                 <label>Buscar paciente:</label><br>
-                                <select class="selectpicker" id="pacienteselect" data-live-search="true">
+                                <select class="form-control" id="pacienteselect">
                                 </select>
                                 {{-- <div id="editImagem"></div> --}}
                             </div>
                         </div><br>
                         <div class="row">
                             <div class="col">
-                                <label>Paciente Selecionado:</label>
-                                <input type="text" class="form-control" id="nomePaciente" name="nomePaciente"
+                                <input type="hidden" class="form-control" id="nomePaciente" name="nomePaciente"
                                     placeholder="SELECIONE UM PACIENTE!!!" disabled="true">
                             </div>
-                        </div><br>
+                        </div>
                         <div class="row">
                             <div class="col">
                                 <label>Inicio:</label>
