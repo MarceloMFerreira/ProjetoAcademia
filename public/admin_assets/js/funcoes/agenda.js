@@ -5,11 +5,6 @@ var pilates;
 var idglobalPaciente;
 var idUsuarioAtivo = 0;
 
-//NÃO MEXI EM NADA AQUI AINDA, FALTA ARRUMAR OS BOTÕES DO HABILITAR BOTÕES
-//ACHO QUE JA TA SALVANDO OS HORÁRIOS MAS TEM QUE PRESTAR ATENÇÃO NISSO
-//NÃO TA ATUALIZANDO QUANDO EU EXCLUO ALGUM TREINO
-//DE RESTO PARECE QUE TA FUNCIONANDO
-
 window.onload = function () {
     carregaAgenda();
     habilitaDesabilitaBotoes(true, 0);

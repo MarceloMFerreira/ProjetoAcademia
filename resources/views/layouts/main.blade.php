@@ -66,8 +66,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/avaliacao">
-                    <i class="fas fa-fw  fa-calendar-o"></i>
-                    <span>Agendamento</span></a>
+                    {{-- <i class="fas fa-fw fa-running"></i> --}}
+                    <i class="fas fa-fw fa-bar-chart"></i>
+                    <span>Avaliação</span></a>
             </li>
 
          
@@ -177,7 +178,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Marcelo Ferreira 2023</span>
+                        <span>Copyright &copy;  2023</span>
                     </div>
                 </div>
             </footer>

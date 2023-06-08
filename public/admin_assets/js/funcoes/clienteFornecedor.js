@@ -20,7 +20,7 @@ window.onload = function () {
         x = document.getElementById("isPaciente");
         x.style.display = "none";
     }
-    setMenuPilates();
+    
 };
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -1026,20 +1026,6 @@ function excluirContato(index) {
     });
 }
 
-// --------------------------- VERIFICA MENU PILATES -------------------------------
-function setMenuPilates() {
-    if (pilates) {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "block";
-        });
-    } else {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "none";
-        });
-    }
-}
 // --------------------------- BUSCA DROPDOWN MENU -------------------------------
 function filterFunction() {
     var input, filter, ul, li, a, i;

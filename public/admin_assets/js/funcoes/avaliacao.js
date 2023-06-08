@@ -8,22 +8,7 @@ var idUsuarioAtivo = 0;
 
 window.onload = function () {
     carregaAvaliacoes();
-    var today = new Date();
-    var dd = today.getDate();
-
-    var mm = today.getMonth() + 1;
-    var yyyy = today.getFullYear();
-    if (dd < 10) {
-        dd = "0" + dd;
-    }
-
-    if (mm < 10) {
-        mm = "0" + mm;
-    }
-    today = yyyy + "-" + mm + "-" + dd;
-    document.getElementById("dtNasc").value = today;
     habilitaDesabilitaBotoes(true, 0);
-    setMenuPilates();
 };
 
 // --------------------------- CONUFIGURA BOTÕES -------------------------------
@@ -34,9 +19,9 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
             '<button type="button" class="btn btn-success" data-dismiss="modal">Ok</button>';
     } else {
         buton =
-            '<button type="button" class=" btn btn-success" onclick="excluir()">Sim</a>';
+            '<button type="button" class=" btn btn-success" onclick="excluir()">Confirmar</a>';
         buton +=
-            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Não</button>';
+            '  <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="cancelarExclusao()">Cancelar</button>';
     }
     $("#botoesModal").html(buton);
 }
@@ -44,20 +29,20 @@ function habilitaDesabilitaBotoesModal(apenasBotaoOk) {
 function habilitaDesabilitaBotoes(cadastrar, idAlterar) {
     if (cadastrar == true) {
         buton =
-            '<a class=" btn btn-success  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
+            '<a class=" btn btn-success" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
             idAlterar +
             "','" +
             1 +
-            "')\">Cadastrar</a>";
+            "')\"><i class='fas fa-plus-circle'> Cadastrar</a>";
     } else {
         buton =
-            '<a class=" btn btn-primary  btn-lg btn-block" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
+            '<a class=" btn btn-primary" id="botao" data-toggle="modal" data-target="#exampleModal" onclick="cadAltera(\'' +
             idAlterar +
             "','" +
             0 +
-            "')\">Alterar</a>";
+            "')\"><i class='fas fa-fw fa-pencil-alt'>&nbsp;</i>Alterar</a>";
         buton +=
-            '  <a class=" btn btn-light btn-lg btn-block" onclick="cancelarEdicao()">Cancelar</a>';
+            '  <a class=" btn btn-light" onclick="cancelarEdicao()"><i class="fas fa-ban"></i>Cancelar</a>';
     }
     $("#botoes").html(buton);
 }
@@ -124,48 +109,42 @@ function montaTabela(idPaciente) {
         if (value.INT_ID_PACIENTE == idPaciente) {
             tbrows +=
                 "<tr>" +
-                "<td class = 'text-center'>" +
+                "<td class='text-center'>" +
                 "<input type='date' class='form-control' disabled='true' value='" +
                 value.DATE_AVALIACAO +
                 "'></input>" +
                 "</td>" +
-                "<td class = 'text-center'>" +
+                "<td class='text-center'>" +
                 value.DECIMAL_PESO +
                 "</td>" +
-                "<td class = 'text-center'>" +
+                "<td class='text-center'>" +
                 value.DECIMAL_ALTURA +
                 "</td>" +
-                "<td class = 'text-center'>" +
+                "<td class='text-center'>" +
                 value.TXT_OUTRAS_QUEIXAS +
                 "</td>" +
-                "<td class = 'text-center'>" +
-                '<button type="button" class="btn btn-success" onclick="preencheCampos(\'' +
-                value.INT_ID;
-
-            tbrows +=
-                "')\"> Editar</button>" +
-                "</td>" +
-                "<td class = 'text-center'>" +
-                '<button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-danger" onclick="preparaExclusao(\'' +
+                "<td class='text-center'>" +
+                "<div class='btn-group'>" +
+                "<button type='button' class='btn btn-sm btn-success mr-2' onclick=\"preencheCampos('" +
                 value.INT_ID +
-                "')\"> Excluir</button>" +
+                "')\">" +
+                "<i class='fas fa-edit'>&nbsp;</i>Editar" +
+                "</button>" +
+                "<button data-toggle='modal' data-target='#exampleModal' type='button' class='btn btn-sm btn-danger' onclick=\"preparaExclusao('" +
+                value.INT_ID +
+                "')\">" +
+                "<i class='fas fa-trash-alt'>&nbsp;</i>Excluir" +
+                "</button>" +
+                "</div>" +
                 "</td>" +
                 "</tr>";
         }
         index++;
     });
-    var editarImg = "";
-    pacientes.forEach((value1) => {
-        if (value1.INT_ID == idPaciente && value1.TXT_FOTO != null) {
-            editarImg =
-                "<img src='uploads/img/" +
-                value1.TXT_FOTO +
-                "' style='height: 122px;'></img>";
-        }
-    });
-    $("#editImagem").html(editarImg);
+    
     $("#datagrid1").html(tbrows);
 }
+
 
 function preencheCampos(id) {
     const objFiltrados = json.filter(obj => obj.INT_ID == id);
@@ -284,18 +263,4 @@ function excluir() {
             alert(request.responseText);
         },
     });
-}
-// --------------------------- VERIFICA MENU PILATES -------------------------------
-function setMenuPilates() {
-    if (pilates) {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "block";
-        });
-    } else {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "none";
-        });
-    }
 }

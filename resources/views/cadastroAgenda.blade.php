@@ -55,7 +55,9 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div id="botoes"></div>
+                            <div class="col">
+                                <div id="botoes"></div>
+                            </div>
                         </div>
                     </form>
                 </div>
