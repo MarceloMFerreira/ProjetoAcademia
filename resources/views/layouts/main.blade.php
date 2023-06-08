@@ -64,6 +64,11 @@
                     <i class="fas fa-fw  fa-calendar-o"></i>
                     <span>Agendamento</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/avaliacao">
+                    <i class="fas fa-fw  fa-calendar-o"></i>
+                    <span>Agendamento</span></a>
+            </li>
 
          
 
