@@ -157,8 +157,8 @@ class TreinoController extends Controller
             $treino->INT_ID_EMPRESA = $idEmpresa;
             $treino->BOOL_ATIVO = true;
             $treino->TXT_OBS_PACIENTE = $request->obsPaciente;
-            $treino->DATE_INICIO = $request->inicioTreino . ' 00:00:00';
-            $treino->DATE_FINAL = $request->inicioTreino . ' 00:00:00';
+            $treino->DATE_INICIO = $request->inicioTreino;
+            $treino->DATE_FINAL = $request->inicioTreino;
             $treino->INT_CHEGOU_COM_DOR = $request->dorAoChegar;
             $treino->TXT_OBS_CHEGOU_COM_DOR = $request->obsDorAoChegar;
             if ($request->idAgendamento > 0)

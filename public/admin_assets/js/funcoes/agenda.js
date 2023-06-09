@@ -180,9 +180,9 @@ function iniciaTreinoComAgendamento(idPaciente, idAgendamento, inicio, final) {
         "/" +
         idAgendamento +
         "/" +
-        inicio.slice(0, 10) +
+        inicio +
         "/" +
-        final.slice(0, 10);
+        final;
 }
 
 // ---------------------------  EDIÇÃO -------------------------------

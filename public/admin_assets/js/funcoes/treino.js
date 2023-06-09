@@ -1,3 +1,19 @@
+//ARRUMAR OS BOTÕES LA NO CARREGAR TREINOS ANTERIORES, SÓ O FRONT END MESMO
+/// TEM QUE ARRUMAR O VISUALIZAR TREINO ANTERIOR, E ARRUMAR ALGUMA COISA PRA FAZER COM AQUILO
+//AI ACHO QUE É SÓ TESTAR
+
+
+//POR FIM TEM QUE VER O QUE FAZER COM A PÁGINA INICIAL
+
+
+
+
+
+
+
+
+
+
 var json = [];
 var idSelecionadaParaExcluir = 0;
 var idSelecionadaParaExcluirTreinoAparelhoAcesorio = 0;
@@ -22,7 +38,6 @@ window.onload = function () {
     carregaTreinos();
     montaTabelaTreinosAnteriores();
     preencheComboTreinoEmAberto();
-    setMenuPilates();
 };
 
 // --------------------------- CONUFIGURA BOTÕES -------------------------------
@@ -127,8 +142,8 @@ function configExpandeAcessorio() {
 }
 
 function configExpandeFinalTreino() {
-    const table = document.getElementById("tabelaTreinoAtual");
-    if (table.rows.length === 0 || table.rows.length === 1) {
+    const div = document.getElementById("dgvAparelhos");
+    if (div.childElementCount == 0) {
         document.getElementById("result").textContent =
             "Adicione no mínimo 1 aparelho a este treino";
     } else {
@@ -311,8 +326,9 @@ function /*PREENCHE COMBOS*/ carregaTreinos() {
     });
 }
 
-function /*MONTA TABELA APARELHO*/ montaTabelaTreinoAtual() {
-    var tbrows;
+function montaTabelaTreinoAtual() {
+    var rows = "<div class='row'>";
+
     var index = 0;
     listaAuxTipoTreino.splice(0, listaAuxTipoTreino.length);
     $.ajax({
@@ -326,26 +342,39 @@ function /*MONTA TABELA APARELHO*/ montaTabelaTreinoAtual() {
         success: function (resultado) {
             jsonTreinoEmAndamento = resultado.treinoEmAndamento;
 
-            //aux = jsonTreinoEmAndamento.treino_aparelho;
             var indexAux = 0;
             jsonTreinoEmAndamento[0].treino_aparelho.forEach((value) => {
-                tbrows +=
-                    "<tr>" +
-                    "<td class = 'text-center'>" +
+                rows +=
+                    "<div class='col-lg-4' style='margin-bottom: 10px;'>" +
+                    "<div class='card border-dark cardRelatorio'>" +
+                    "<div class='card-header text-center'>" +
+                    "<h5 class='card-title'>" +
                     value.aparelho.TXT_DESCRICAO +
-                    "</td>" +
-                    "<td class = 'text-center'>";
-                if (value.TXT_OBS != null) tbrows += value.TXT_OBS;
-                tbrows += "</td>" + "<td class = 'text-center'>";
-
+                    "</h5>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<p class='card-text'>";
+                if (value.TXT_OBS != null) {
+                    rows +=
+                        "<span style='font-weight:bold;'>Observações:</span> " +
+                        value.TXT_OBS;
+                } else {
+                    rows +=
+                        "<span style='font-weight:bold;'>Observações:</span> Nenhuma observação registrada!";
+                }
+                rows +=
+                    "</p>" +
+                    "<p class='card-text'>" +
+                    "<span style='font-weight:bold;'>Tipo de Treino:</span> ";
                 var sep = "";
                 value.treino_aparelho_tipo_treino.forEach((x) => {
-                    tbrows += sep + x.tipo_treino.TXT_DESCRICAO;
+                    rows += sep + x.tipo_treino.TXT_DESCRICAO;
                     sep = "// ";
                 });
-
-                tbrows += "</td>" + "<td class = 'text-center'>";
-
+                rows +=
+                    "</p>" +
+                    "<p class='card-text'>" +
+                    "<span style='font-weight:bold;'>Acessórios:</span> ";
                 var acessorios = "";
                 var aux = "";
                 if (value.treino_aparelho_acessorio.length > 0) {
@@ -356,33 +385,39 @@ function /*MONTA TABELA APARELHO*/ montaTabelaTreinoAtual() {
                         aux = " - ";
                     });
                 }
-
-                tbrows +=
-                    acessorios +
-                    "</td>" +
-                    "<td class = 'text-center'>" +
-                    '<button type="button" class="btn btn-success" onclick="preparaEdicaoAparelho(\'' +
+                if (acessorios == "") {
+                    rows += "Nenhum acessório registrado!";
+                } else {
+                    rows += acessorios;
+                }
+                rows +=
+                    "</p>" +
+                    "</div>" +
+                    "<div class='card-footer text-center'>" +
+                    "<div class='btn-group' role='group'>" +
+                    "<button type='button' class='btn btn-success' onclick='preparaEdicaoAparelho(\"" +
                     value.INT_ID +
-                    "','" +
+                    '","' +
                     value.INT_ID_APARELHO +
-                    "','" +
+                    '","' +
                     indexAux +
-                    "','" +
+                    '","' +
                     value.TXT_OBS +
-                    "')\"> Editar</button>" +
-                    "</td>" +
-                    "<td class = 'text-center'>" +
-                    '<button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-danger" onclick="preparaExclusaoTreinoAparelho(\'' +
+                    "\")'>Editar</button>" +
+                    "<button data-toggle='modal' data-target='#exampleModal' type='button' class='btn btn-danger' onclick='preparaExclusaoTreinoAparelho(\"" +
                     value.INT_ID +
-                    "')\"> Excluir</button>" +
-                    "</td>" +
-                    "</tr>";
+                    "\")'>Excluir</button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
+
                 listaAuxTipoTreino.push(value.treino_aparelho_tipo_treino);
                 indexAux++;
             });
 
-            if (tbrows == undefined) tbrows = "";
-            $("#dgvAparelhos").html(tbrows);
+            if (rows == undefined) rows = "";
+            $("#dgvAparelhos").html(rows + "</div>");
         },
         error: function (request, status, error) {
             document.getElementById("result").textContent =
@@ -391,9 +426,9 @@ function /*MONTA TABELA APARELHO*/ montaTabelaTreinoAtual() {
         },
     });
 }
-
 function montaTabelaAcessorio() {
-    var rows;
+    var rows = "<div class='row'>"; // Adiciona a classe 'row' para envolver todos os itens
+
     jsonTreinoEmAndamento[0].treino_aparelho.forEach((value) => {
         if (
             value.INT_ID == idApararelho &&
@@ -401,28 +436,45 @@ function montaTabelaAcessorio() {
         ) {
             value.treino_aparelho_acessorio.forEach((item) => {
                 rows +=
-                    "<tr>" +
-                    "<td class = 'text-center'>" +
+                    "<div class='col-lg-4' style='margin-bottom: 10px;'>" +
+                    "<div class='card border-dark cardRelatorio'>" +
+                    "<div class='card-header text-center'>" +
+                    "<h5 class='card-title'>" +
                     item.acessorio.TXT_DESCRICAO +
-                    "</td>" +
-                    "<td class = 'text-center'>";
+                    "</h5>" +
+                    "</div>" +
+                    "<div class='card-body'>" +
+                    "<p class='card-text'>";
                 if (item.TXT_OBS != null) {
-                    rows += item.TXT_OBS + "</td>";
+                    rows +=
+                        "<span style='font-weight:bold;'>Observações:</span> " +
+                        item.TXT_OBS;
+                } else {
+                    rows +=
+                        "<span style='font-weight:bold;'>Observações:</span> Nenhuma observação registrada!";
                 }
                 rows +=
-                    "<td class = 'text-center'>" +
-                    '<button data-toggle="modal" data-target="#exampleModal" type="button" class="btn btn-danger" onclick="preparaExclusaoTreinoAparelhoAcessorio(\'' +
+                    "</p>" +
+                    "</div>" +
+                    "<div class='card-footer text-center'>" +
+                    "<div class='btn-group' role='group'>" +
+                    "<button data-toggle='modal' data-target='#exampleModal' type='button' class='btn btn-danger' onclick='preparaExclusaoTreinoAparelhoAcessorio(\"" +
                     item.INT_ID +
-                    "')\"> Excluir</button>" +
-                    "</td>" +
-                    "</tr>";
+                    "\")'>Excluir</button>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>" +
+                    "</div>";
             });
         }
     });
 
+    rows += "</div>"; // Fecha a div com a classe 'row'
+
     if (rows == undefined) rows = "";
     $("#dgvAcessorios").html(rows);
 }
+
 
 function montaTabelaTreinosAnteriores() {
     var tbrows = "";
@@ -445,17 +497,14 @@ function montaTabelaTreinosAnteriores() {
                 dateEdit = value.DATE_INICIO.slice(0, 10);
                 if ((date != "" && dateEdit == date) || date == "") {
                     tbrows +=
-                        "<div class='col-lg-4' style='margin-bottom: 10px;'>" +
-                        "<div class='card border-dark cardRelatorio'>" +
-                        "<div class='card-header text-center'>" +
-                        "<h5 class='card-title'><span style='font-weight:bold;'>Data:</span> " +
-                        new Date(value.DATE_INICIO).toLocaleDateString(
-                            "pt-BR"
-                        ) +
-                        "</h5>" +
-                        "</div>" +
-                        "<div class='card-body'>" +
-                        "<p class='card-text'><span style='font-weight:bold;'>Observações:</span>";
+                        "<tr>" +
+                        "<td style='display:none;'>" + value.INT_ID + "</td>" +
+                        "<td class='text-center col-2'>" +
+                        new Date(value.DATE_INICIO).toLocaleDateString("pt-BR") +
+                        "</td>" +
+                        "<td class='text-center col-1'>" + value.INT_CHEGOU_COM_DOR + "</td>" +
+                        "<td class='text-center col-1'>" + value.INT_SAIU_COM_DOR + "</td>" +
+                        "<td>";
 
                     if (value.TXT_OBS != null) {
                         tbrows += value.TXT_OBS;
@@ -463,20 +512,9 @@ function montaTabelaTreinosAnteriores() {
                         tbrows += "Nenhuma observação registrada!";
                     }
 
-                    // Adiciona a dor ao chegar
                     tbrows +=
-                        "<br><span style='font-weight:bold;'>Dor ao chegar:</span> " +
-                        value.INT_CHEGOU_COM_DOR;
-
-                    // Adiciona a dor ao sair
-                    tbrows +=
-                        "<br><span style='font-weight:bold;'>Dor ao sair:</span> " +
-                        value.INT_SAIU_COM_DOR;
-
-                    tbrows +=
-                        "</p>" +
-                        "</div>" +
-                        "<div class='card-footer text-center'>" +
+                        "</td>" +
+                        "<td class='text-center'>" +
                         "<div class='btn-group' role='group'>" +
                         "<button class='btn btn-primary espaco-direita' onclick='montaTabelaVisualizarTreinoAnterior(\"" +
                         index +
@@ -488,9 +526,8 @@ function montaTabelaTreinosAnteriores() {
                         value.INT_ID +
                         "\")'>Excluir</button>" +
                         "</div>" +
-                        "</div>" +
-                        "</div>" +
-                        "</div>";
+                        "</td>" +
+                        "</tr>";
 
                     jsonVisualizarTreinoAnterior.push(value);
 
@@ -509,43 +546,65 @@ function montaTabelaTreinosAnteriores() {
     });
 }
 
+
+
 function montaTabelaVisualizarTreinoAnterior(index) {
     configExpandeTreinoAnterior(0);
 
-    var tbrows = "";
+    var cards = "";
     jsonVisualizarTreinoAnterior[index].treino_aparelho.forEach((value) => {
-        tbrows +=
-            "<tr>" +
-            "<td class = 'text-center'>" +
-            value.aparelho.TXT_DESCRICAO +
-            "</td>" +
-            "<td class = 'text-center'>";
-        if (value.TXT_OBS != null) tbrows += value.TXT_OBS;
-        tbrows += "</td>" + "<td class = 'text-center'>";
-
+        var aparelhoDescricao = value.aparelho.TXT_DESCRICAO;
+        var obs = value.TXT_OBS != null ? value.TXT_OBS : "";
+        var tiposTreino = "";
+        var acessorios = "";
+        var acessoriosObs = "";
         var sep = "";
+
         value.treino_aparelho_tipo_treino.forEach((x) => {
-            tbrows += sep + x.tipo_treino.TXT_DESCRICAO;
+            tiposTreino += sep + x.tipo_treino.TXT_DESCRICAO;
             sep = "// ";
         });
-        tbrows += "</td>" + "<td class = 'text-center'>";
 
-        var acessorios = "";
-        var aux = "";
-        if (value.treino_aparelho_acessorio.length > 0) {
-            value.treino_aparelho_acessorio.forEach((item) => {
-                acessorios += aux + item.acessorio.TXT_DESCRICAO;
-                if (item.TXT_OBS != null && item.TXT_OBS != "")
-                    acessorios += " (" + item.TXT_OBS + ") ";
-                aux = " - ";
-            });
-        }
+        sep = "";
+        value.treino_aparelho_acessorio.forEach((item) => {
+            acessorios += sep + item.acessorio.TXT_DESCRICAO;
+            if (item.TXT_OBS != null && item.TXT_OBS != "") {
+                acessoriosObs += sep + "(" + item.TXT_OBS + ")";
+            }
+            sep = " - ";
+        });
 
-        tbrows += acessorios + "</td>" + "</tr>";
+        cards +=
+            "<div class='col-lg-4' style='margin-bottom: 10px;'>" +
+            "<div class='card border-dark'>" +
+            "<div class='card-header text-center'>" +
+            "<h5 class='card-title'>" +
+            aparelhoDescricao +
+            "</h5>" +
+            "</div>" +
+            "<div class='card-body'>" +
+            "<p class='card-text text-center'>" +
+            "<strong>Observações: </strong>" +
+            obs +
+            "<br>" +
+            "<strong>Tipo de Treino: </strong>" +
+            tiposTreino +
+            "<br>" +
+            "<strong>Acessórios: </strong>" +
+            acessorios +
+            " " +
+            acessoriosObs +
+            "</p>" +
+            "</div>" +
+            "</div>" +
+            "</div>";
     });
 
-    if (tbrows == undefined) tbrows = "";
-    $("#dgvExpandetreinoAnterior").html(tbrows);
+    if (cards == undefined) {
+        cards = "";
+    }
+
+    $("#dgvExpandetreinoAnterior").html(cards);
 }
 
 function preencheComboTreinoEmAberto() {
@@ -668,12 +727,15 @@ function cadastraInicio() {
             complete: function () {},
             success: function (data) {
                 document.getElementById("result").textContent = data.msg;
-                if (data.msg != "Treino ja cadastrado!!!")
+                if (
+                    data.msg == "Cadastrado com SUCESSO!!!" ||
+                    data.msg == "Alterado com SUCESSO!!!"
+                )
                     configExpandeAparelho();
-                if (idTreino == 0) {
+                if (idTreino == 0 || idTreino == undefined) {
                     idTreino = data.idCadastrado;
                 }
-                cadAlteraInicio = 0;
+                if (data.msg != "Treino ja cadastrado!!!") cadAlteraInicio = 0;
                 montaTabelaTreinoAtual();
                 preencheComboTreinoEmAberto();
             },
@@ -687,13 +749,11 @@ function cadastraInicio() {
 }
 
 function cadastraAparelho() {
-
-    if(document.getElementById("addAparelho").textContent == "Alterar Aparelho")
+    if (
+        document.getElementById("addAparelho").textContent == "Alterar Aparelho"
+    )
         cadAlteraAparelho = 0;
-    else
-        cadAlteraAparelho = 1;
-
-
+    else cadAlteraAparelho = 1;
 
     document.getElementById("result").textContent = "";
     habilitaDesabilitaBotoesModalAparelhoFinal(true);
@@ -743,8 +803,9 @@ function cadastraAparelho() {
                 document.getElementById("result").textContent = data.msg;
                 if (data.msg == "Alterado com SUCESSO!!!") {
                     configExpandeAcessorio();
-                } else if (data.msg == "Cadastrado com SUCESSO!!!"){
-                    document.getElementById("result").textContent = "Deseja adicionar acessórios a este aparelho?";
+                } else if (data.msg == "Cadastrado com SUCESSO!!!") {
+                    document.getElementById("result").textContent =
+                        "Deseja adicionar acessórios a este aparelho?";
                     habilitaDesabilitaBotoesModalAparelhoFinal(false);
                 }
                 if (idApararelho == 0) {
@@ -1026,17 +1087,3 @@ function preparaEdicaoTreino(index) {
     minhaDiv.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
-// --------------------------- VERIFICA MENU PILATES -------------------------------
-function setMenuPilates() {
-    if (pilates) {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "block";
-        });
-    } else {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "none";
-        });
-    }
-}
