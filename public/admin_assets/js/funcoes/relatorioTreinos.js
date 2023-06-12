@@ -11,8 +11,11 @@ var dataFinal = 0;
 window.onload = function () {
     preencheCampos();
     carregaRelatorio();
-    setMenuPilates();
 };
+
+//FALTA ARRUMAR NO CADASTRO DE TREINOS O VISUALIZAR TREINOS ANTERIORES
+//FALTA NA AGENDA ARRUMAR O BOTÃO DE TREINOS JA INICIADOS
+// FALTA TALVEZ MEXER LA NO RELATÓRIO
 
 // --------------------------- Carrega Treinos -------------------------------
 function habilitaDesabilitaBotoesModalTreino(apenasBotaoOk) {
@@ -147,7 +150,7 @@ function visualizarTreino($id) {
         var sep = "";
         value.treino_aparelho_tipo_treino.forEach((x) => {
             rw += sep + x.tipo_treino.TXT_DESCRICAO;
-            sep = "// ";
+            sep = ", ";
         });
         rw += ") " + "</span></h5>" + "</div>" + "<div class='card-body'>";
 
@@ -268,17 +271,4 @@ function preencheCampos() {
     });
 }
 
-// --------------------------- VERIFICA MENU PILATES -------------------------
-function setMenuPilates() {
-    if (pilates) {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "block";
-        });
-    } else {
-        x = document.getElementsByName("pacienteMenu");
-        x.forEach((element) => {
-            element.style.display = "none";
-        });
-    }
-}
+
