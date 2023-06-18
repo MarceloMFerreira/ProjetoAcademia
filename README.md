@@ -21,4 +21,5 @@ Este projeto é um sistema de gerenciamento de academia desenvolvido em Laravel.
 - Laravel Framework
 
 ## Capturas de tela
-![image](https://github.com/MarceloMFerreira/projetoAcademia/assets/70519529/a459e4b0-d57c-4a78-842a-d9ee9ace29b0)
+![image](https://github.com/MarceloMFerreira/projetoAcademia/assets/70519529/84fd870c-bcbe-4d85-866b-009f486d7cea)
+
