@@ -1,3 +1,24 @@
-# Projeto Academia
-Esse projeto em PHP com Laravel é um sistema de controle para uma academia, que permite o cadastro de diversos itens relacionados ao funcionamento do estabelecimento, como acessórios, aparelhos, clientes/fornecedores, colaboradores e tipos de treino. Além disso, o sistema também possui recursos para agendamento, avaliação, relatórios e registro de treinos. Essa estrutura permite uma gestão mais eficiente e organizada da academia, tornando mais fácil o gerenciamento das atividades e o controle dos dados dos clientes e colaboradores.
+# Projeto de Gerenciamento de Academia
 
+Este projeto é um sistema de gerenciamento de academia desenvolvido em Laravel.
+
+## Funcionalidades Principais
+
+- Login e autenticação de usuários
+- Cadastro, edição e exclusão de colaboradores
+- Cadastro, edição e exclusão de clientes/fornecedores e seus contatos
+- Cadastro, edição e exclusão de aparelhos e acessórios
+- Cadastro, edição e exclusão de tipos de treino
+- Cadastro, edição e exclusão de avaliações físicas
+- Agendamento e gerenciamento de agendas
+- Cadastro, edição e exclusão de treinos
+
+## Requisitos
+
+- PHP >= 7.4
+- Banco de dados MySQL
+- Composer (gerenciador de dependências do PHP)
+- Laravel Framework
+
+## Capturas de tela
+![image](https://github.com/MarceloMFerreira/projetoAcademia/assets/70519529/a459e4b0-d57c-4a78-842a-d9ee9ace29b0)
