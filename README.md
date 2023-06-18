@@ -17,7 +17,7 @@ Este projeto é um sistema de gerenciamento de academia desenvolvido em Laravel.
 
 - PHP >= 7.4
 - Banco de dados MySQL
-- Composer (gerenciador de dependências do PHP)
+- Composer (gerenciador de dependências do PHP) 
 - Laravel Framework
 
 ## Capturas de tela
