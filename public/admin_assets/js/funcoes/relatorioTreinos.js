@@ -13,10 +13,6 @@ window.onload = function () {
     carregaRelatorio();
 };
 
-//FALTA ARRUMAR NO CADASTRO DE TREINOS O VISUALIZAR TREINOS ANTERIORES
-//FALTA NA AGENDA ARRUMAR O BOTÃO DE TREINOS JA INICIADOS
-// FALTA TALVEZ MEXER LA NO RELATÓRIO
-
 // --------------------------- Carrega Treinos -------------------------------
 function habilitaDesabilitaBotoesModalTreino(apenasBotaoOk) {
     if (apenasBotaoOk == true) {
@@ -106,14 +102,14 @@ function montaTabela() {
                 "</p>" +
                 "</div>" +
                 "<div class='card-footer text-center'>" +
-                "<button class='btn btn-primary espaco-direita' data-toggle='modal'" +
-                "data-target='#exampleModal' onclick='visualizarTreino(" +
+                "<button class='btn btn-sm btn-info mr-2' data-toggle='modal'" +
+                "data-target='#exampleModal'  onclick='visualizarTreino(" +
                 index +
-                ")'>Visualizar</button>" +
-                '<button class="btn btn-danger" data-toggle="modal"' +
+                ")'><i class='fas fa-search'></i> Visualizar</button>" +
+                '<button class="btn btn-sm btn-danger mr-2" data-toggle="modal"' +
                 'data-target="#exampleModal" onclick="preparaExclusaoTreino(\'' +
                 value.INT_ID +
-                "')\">Excluir</button>" +
+                "')\"><i class='fas fa-trash-alt'></i> Excluir</button>" +
                 "</div>" +
                 "</div>" +
                 "</div>";
@@ -270,5 +266,3 @@ function preencheCampos() {
         },
     });
 }
-
-

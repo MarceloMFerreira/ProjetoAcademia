@@ -6,6 +6,7 @@ use App\Models\Agenda;
 use Illuminate\Http\Request;
 use App\Models\ClienteFornecedor;
 use App\Models\Empresa;
+use DateTime;
 
 class AgendaController extends Controller
 {
@@ -44,26 +45,63 @@ class AgendaController extends Controller
         else
             $agenda = Agenda::findOrFail($id);
 
-        $agenda->DATE_INICIO_AGENDOU = $request->inicioTreino;
-        $agenda->DATE_FIM_AGENDOU = $request->finalTreino;
-        $agenda->INT_ID_PACIENTE = $idPaciente;
-        $agenda->INT_ID_EMPRESA = $idEmpresa;
-        $agenda->BOOL_ATIVO = true;
+        $diasSemana = $request->input('diasSemana');
 
-        if ($cadAltera == true) {
-            $agenda->INT_ID_CADASTRO = $idUsuario;
-            $agora = date('Y-m-d H:i:s');
-            $agenda->DATE_CADASTRO = $agora;
-            $agenda->save();
-            return  ["msg" => "Cadastrado com SUCESSO!!!"];
-        } else if ($cadAltera == false) {
-            $agenda->INT_ID_ALTERACAO = $idUsuario;
-            $agora = date('Y-m-d H:i:s');
-            $agenda->DATE_ALTERACAO = $agora;
-            $agenda->update();
-            return  ["msg" => "Alterado com SUCESSO!!!"];
+        $horaInicio = DateTime::createFromFormat('H:i', $request->inicioTreino);
+        $horaFim = DateTime::createFromFormat('H:i', $request->finalTreino);
+        
+
+        foreach ($diasSemana as $dia) {
+            for ($i = 0; $i < 30; $i++) {
+                $agenda = new Agenda();
+                $agenda->DATE_INICIO_AGENDOU = $this->getNextWeekdayDateTime($dia, $i, $horaInicio);
+                $agenda->DATE_FIM_AGENDOU = $this->getNextWeekdayDateTime($dia, $i, $horaFim);
+                $agenda->INT_ID_PACIENTE = $idPaciente;
+                $agenda->INT_ID_EMPRESA = $idEmpresa;
+                $agenda->BOOL_ATIVO = true;
+                $agenda->INT_ID_CADASTRO = $idUsuario;
+                $agora = date('Y-m-d H:i:s');
+                $agenda->DATE_CADASTRO = $agora;
+                $agenda->save();
+            }
         }
+
+        return ["msg" => "Agenda cadastrada para 30 semanas com sucesso!"];
     }
+
+    private function getNextWeekdayDateTime($weekday, $weeksToAdd, $time)
+    {
+        $currentDate = new DateTime();
+        $currentDate->setTime(0, 0, 0);
+    
+        $weekdayMap = [
+            'domingo' => 0,
+            'segunda' => 1,
+            'terca' => 2,
+            'quarta' => 3,
+            'quinta' => 4,
+            'sexta' => 5,
+            'sabado' => 6
+        ];
+    
+        $currentWeekday = $currentDate->format('w');
+        $daysToAdd = $weekdayMap[$weekday] - $currentWeekday;
+        if ($daysToAdd < 0) {
+            $daysToAdd += 7;
+        }
+        $daysToAdd += $weeksToAdd * 7;
+    
+        $currentDate->modify("+" . $daysToAdd . " days");
+        $currentDate->setTime(
+            $time->format('H'),
+            $time->format('i'),
+            $time->format('s')
+        );
+    
+        return $currentDate->format('Y-m-d H:i:s');
+    }
+    
+
 
     public function excluir($id, $idUsuario)
     {

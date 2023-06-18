@@ -241,9 +241,13 @@ function montaTabela() {
                 });
                 cellAcoes.appendChild(iniciarTreinoButton);
             } else {
-                var treinoIniciadoText = document.createElement("span");
-                treinoIniciadoText.textContent = "Treino Iniciado";
-                cellAcoes.appendChild(treinoIniciadoText);
+                var iniciarTreinoButton = document.createElement("button");
+                iniciarTreinoButton.type = "button";
+                iniciarTreinoButton.className = "btn btn-sm btn-info mr-2";
+                iniciarTreinoButton.innerHTML =
+                    "<i class='fas fa-wrench'></i> Iniciar Treino";
+                cellAcoes.appendChild(iniciarTreinoButton);
+                iniciarTreinoButton.disabled = true;
             }
 
             var editarButton = document.createElement("button");
@@ -271,8 +275,6 @@ function montaTabela() {
                 preparaExclusao(value.INT_ID);
             });
             cellAcoes.appendChild(excluirButton);
-
-            
 
             index++;
         }
@@ -310,12 +312,17 @@ function cancelarEdicao() {
     document.getElementById("inicioTreino").value = "";
     document.getElementById("finalTreino").value = "";
     document.getElementById("nomePaciente").value = "";
-    //document.getElementById("tempoTreino").value = "";
+
+    var diasSemana = document.getElementsByName("diasSemana[]");
+    for (var i = 0; i < diasSemana.length; i++) {
+        diasSemana[i].checked = false;
+    }
 
     var editarImg = "";
     $("#editImagem").html(editarImg);
     habilitaDesabilitaBotoes(true, 0);
 }
+
 // --------------------------- CADASTRA ALTERA -------------------------------
 function cadAltera(id, cadAltera) {
     habilitaDesabilitaBotoesModal(true);

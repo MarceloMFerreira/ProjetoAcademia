@@ -46,14 +46,47 @@
                         <div class="row">
                             <div class="col">
                                 <label>Inicio:</label>
-                                <input type="datetime-local" class="form-control" id="inicioTreino" name="inicioTreino">
+                                <input type="time" class="form-control" id="inicioTreino" name="inicioTreino">
                             </div>
                             <div class="col">
                                 <label>Final:</label>
-                                <input type="datetime-local" class="form-control" id="finalTreino" name="finalTreino">
+                                <input type="time" class="form-control" id="finalTreino" name="finalTreino">
                             </div>
                         </div>
                         <br>
+                        <div class="row">
+                            <div class="col">
+                                <label>Dias da semana:</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="segunda" name="diasSemana[]" value="segunda">
+                                    <label class="form-check-label" for="segunda">Segunda-feira</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="terca" name="diasSemana[]" value="terca">
+                                    <label class="form-check-label" for="terca">Terça-feira</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="quarta" name="diasSemana[]" value="quarta">
+                                    <label class="form-check-label" for="quarta">Quarta-feira</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="quinta" name="diasSemana[]" value="quinta">
+                                    <label class="form-check-label" for="quinta">Quinta-feira</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="sexta" name="diasSemana[]" value="sexta">
+                                    <label class="form-check-label" for="sexta">Sexta-feira</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="sabado" name="diasSemana[]" value="sabado">
+                                    <label class="form-check-label" for="sabado">Sábado</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" id="domingo" name="diasSemana[]" value="domingo">
+                                    <label class="form-check-label" for="domingo">Domingo</label>
+                                </div>
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="col">
                                 <div id="botoes"></div>

@@ -5,15 +5,6 @@
 
 //POR FIM TEM QUE VER O QUE FAZER COM A PÁGINA INICIAL
 
-
-
-
-
-
-
-
-
-
 var json = [];
 var idSelecionadaParaExcluir = 0;
 var idSelecionadaParaExcluirTreinoAparelhoAcesorio = 0;
@@ -475,7 +466,6 @@ function montaTabelaAcessorio() {
     $("#dgvAcessorios").html(rows);
 }
 
-
 function montaTabelaTreinosAnteriores() {
     var tbrows = "";
     var index = 0;
@@ -498,12 +488,20 @@ function montaTabelaTreinosAnteriores() {
                 if ((date != "" && dateEdit == date) || date == "") {
                     tbrows +=
                         "<tr>" +
-                        "<td style='display:none;'>" + value.INT_ID + "</td>" +
-                        "<td class='text-center col-2'>" +
-                        new Date(value.DATE_INICIO).toLocaleDateString("pt-BR") +
+                        "<td style='display:none;'>" +
+                        value.INT_ID +
                         "</td>" +
-                        "<td class='text-center col-1'>" + value.INT_CHEGOU_COM_DOR + "</td>" +
-                        "<td class='text-center col-1'>" + value.INT_SAIU_COM_DOR + "</td>" +
+                        "<td class='text-center col-2'>" +
+                        new Date(value.DATE_INICIO).toLocaleDateString(
+                            "pt-BR"
+                        ) +
+                        "</td>" +
+                        "<td class='text-center col-1'>" +
+                        value.INT_CHEGOU_COM_DOR +
+                        "</td>" +
+                        "<td class='text-center col-1'>" +
+                        value.INT_SAIU_COM_DOR +
+                        "</td>" +
                         "<td>";
 
                     if (value.TXT_OBS != null) {
@@ -516,7 +514,8 @@ function montaTabelaTreinosAnteriores() {
                         "</td>" +
                         "<td class='text-center'>" +
                         "<div class='btn-group' role='group'>" +
-                        "<button class='btn btn-primary espaco-direita' onclick='montaTabelaVisualizarTreinoAnterior(\"" +
+                        "<button class='btn btn-primary espaco-direita' data-toggle='modal'" +
+                        "data-target='#exampleModal' onclick='montaTabelaVisualizarTreinoAnterior(\"" +
                         index +
                         "\")'>Visualizar</button>" +
                         "<button type='button' class='btn btn-success espaco-direita' onclick='preparaEdicaoTreino(\"" +
@@ -546,65 +545,64 @@ function montaTabelaTreinosAnteriores() {
     });
 }
 
+function montaTabelaVisualizarTreinoAnterior($id) {
+    var rw = "";
 
+    rw = "<h3 class=' text-center'>Visualizar Treino</h3>";
+    rw +=
+        "<div class='col' style='margin-bottom: 10px;' >" +
+        "<div class='card border-dark'>" +
+        "<div class='card-header text-center'>" +
+        "<h5 class='card-title'><span style='font-weight:bold;'>" +
+        "Dor ao chegar: " +
+        jsonVisualizarTreinoAnterior[$id].INT_CHEGOU_COM_DOR +
+        "</span></h5>" +
+        "</div>";
+    rw += "</div>" + "</div>";
 
-function montaTabelaVisualizarTreinoAnterior(index) {
-    configExpandeTreinoAnterior(0);
-
-    var cards = "";
-    jsonVisualizarTreinoAnterior[index].treino_aparelho.forEach((value) => {
-        var aparelhoDescricao = value.aparelho.TXT_DESCRICAO;
-        var obs = value.TXT_OBS != null ? value.TXT_OBS : "";
-        var tiposTreino = "";
-        var acessorios = "";
-        var acessoriosObs = "";
-        var sep = "";
-
-        value.treino_aparelho_tipo_treino.forEach((x) => {
-            tiposTreino += sep + x.tipo_treino.TXT_DESCRICAO;
-            sep = "// ";
-        });
-
-        sep = "";
-        value.treino_aparelho_acessorio.forEach((item) => {
-            acessorios += sep + item.acessorio.TXT_DESCRICAO;
-            if (item.TXT_OBS != null && item.TXT_OBS != "") {
-                acessoriosObs += sep + "(" + item.TXT_OBS + ")";
-            }
-            sep = " - ";
-        });
-
-        cards +=
-            "<div class='col-lg-4' style='margin-bottom: 10px;'>" +
+    jsonVisualizarTreinoAnterior[$id].treino_aparelho.forEach((value) => {
+        rw +=
+            "<div class='col' style='margin-bottom: 10px;' >" +
             "<div class='card border-dark'>" +
             "<div class='card-header text-center'>" +
-            "<h5 class='card-title'>" +
-            aparelhoDescricao +
-            "</h5>" +
-            "</div>" +
-            "<div class='card-body'>" +
-            "<p class='card-text text-center'>" +
-            "<strong>Observações: </strong>" +
-            obs +
-            "<br>" +
-            "<strong>Tipo de Treino: </strong>" +
-            tiposTreino +
-            "<br>" +
-            "<strong>Acessórios: </strong>" +
-            acessorios +
-            " " +
-            acessoriosObs +
-            "</p>" +
-            "</div>" +
-            "</div>" +
-            "</div>";
+            "<h5 class='card-title'><span style='font-weight:bold;'>" +
+            value.aparelho.TXT_DESCRICAO +
+            " (";
+        var sep = "";
+        value.treino_aparelho_tipo_treino.forEach((x) => {
+            rw += sep + x.tipo_treino.TXT_DESCRICAO;
+            sep = ", ";
+        });
+        rw += ") " + "</span></h5>" + "</div>" + "<div class='card-body'>";
+
+        if (value.treino_aparelho_acessorio.length > 0) {
+            value.treino_aparelho_acessorio.forEach((item) => {
+                rw +=
+                    "<p class='card-text'><span style='font-weight:bold;'>" +
+                    item.acessorio.TXT_DESCRICAO +
+                    "</span>";
+                if (item.TXT_OBS != null && item.TXT_OBS != "")
+                    rw += ": " + item.TXT_OBS;
+                rw += "</p>";
+            });
+        } else {
+            rw += "Nenhum acessório utilizado!";
+        }
+        rw += "</div>" + "</div>" + "</div>";
     });
 
-    if (cards == undefined) {
-        cards = "";
-    }
+    rw +=
+        "<div class='col' style='margin-bottom: 10px;' >" +
+        "<div class='card border-dark'>" +
+        "<div class='card-header text-center'>" +
+        "<h5 class='card-title'><span style='font-weight:bold;'>" +
+        "Dor ao sair: " +
+        jsonVisualizarTreinoAnterior[$id].INT_SAIU_COM_DOR +
+        "</span></h5>" +
+        "</div>";
+    rw += "</div>" + "</div>";
 
-    $("#dgvExpandetreinoAnterior").html(cards);
+    $("#result").html(rw);
 }
 
 function preencheComboTreinoEmAberto() {
@@ -1086,4 +1084,3 @@ function preparaEdicaoTreino(index) {
     var minhaDiv = document.getElementById("inicio01");
     minhaDiv.scrollIntoView({ behavior: "smooth", block: "center" });
 }
-
