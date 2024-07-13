@@ -37,7 +37,7 @@
                 <div class="sidebar-brand-icon">
                     <img src={{ asset("admin_assets/img/ginastica.png")}} style="width: 50px;" alt="Logo da academia">
                 </div>
-                <div class="sidebar-brand-text mx-3">Gestão Academia</div>
+                <div class="sidebar-brand-text mx-3">SysFit</div>
             </a>
 
             <!-- Divider -->
@@ -183,7 +183,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy;  2023</span>
+                        <span>Copyright Marcelo M Ferreira &copy;  2023</span>
                     </div>
                 </div>
             </footer>

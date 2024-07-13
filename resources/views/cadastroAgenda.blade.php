@@ -86,7 +86,14 @@
                                     <label class="form-check-label" for="domingo">Domingo</label>
                                 </div>
                             </div>
-                        </div>
+                        </div><br>
+                        <div class="row">
+                            <div class="col">
+                                <label>Semanas:</label><br>
+                                <input class="form-control" type="number" id="semanasAssinatura">
+                                {{-- <div id="editImagem"></div> --}}
+                            </div>
+                        </div><br>
                         <div class="row">
                             <div class="col">
                                 <div id="botoes"></div>

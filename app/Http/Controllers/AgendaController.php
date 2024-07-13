@@ -52,7 +52,7 @@ class AgendaController extends Controller
         
 
         foreach ($diasSemana as $dia) {
-            for ($i = 0; $i < 30; $i++) {
+            for ($i = 0; $i < 1; $i++) {
                 $agenda = new Agenda();
                 $agenda->DATE_INICIO_AGENDOU = $this->getNextWeekdayDateTime($dia, $i, $horaInicio);
                 $agenda->DATE_FIM_AGENDOU = $this->getNextWeekdayDateTime($dia, $i, $horaFim);
